@@ -9,7 +9,7 @@ var express = require('express')
 
 app.configure(function() {
 	app.set('port', process.env.PORT || 3000);
-  	app.set('ipaddr', process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1");
+  	//app.set('ipaddr', process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1");
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
 	app.use(express.static(__dirname + '/public'));
@@ -33,9 +33,12 @@ app.get('/', function(req, res) {
   res.render('index.html');
 });
 
-server.listen(app.get('port'), app.get('ipaddr'), function(){
-	console.log('Express server listening on  IP: ' + app.get('ipaddr') + ' and port ' + app.get('port'));
-});
+//server.listen(app.get('port'), app.get('ipaddr'), function(){
+//	console.log('Express server listening on  IP: ' + app.get('ipaddr') + ' and port ' + app.get('port'));
+//});
+app.listen(app.get('port'), function() {
+  console.log("Node app is running on port:" + app.get('port'))
+})
 
 io.set("log level", 1);
 var people = {};
