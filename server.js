@@ -147,7 +147,7 @@ function purge(s, action) {
 			}
 		} else {//user in room but does not own room
 			if (action === "disconnect") {
-				io.sockets.emit("update", people[s.id].name + " has disconnected from the server.");
+				io.sockets.emit("update", people[s.id].name + " se ha desconectado del chat.");
 				if (_.contains((room.people), s.id)) {
 					var personIndex = room.people.indexOf(s.id);
 					room.people.splice(personIndex, 1);
@@ -173,7 +173,7 @@ function purge(s, action) {
 	} else {
 		//The user isn't in a room, but maybe he just disconnected, handle the scenario:
 		if (action === "disconnect") {
-			io.sockets.emit("update", people[s.id].name + " has disconnected from the server.");
+			io.sockets.emit("update", people[s.id].name + " se ha desconectado del chat.");
 			delete people[s.id];
 			sizePeople = _.size(people);
 			io.sockets.emit("update-people", {people: people, count: sizePeople});
@@ -202,11 +202,11 @@ io.sockets.on("connection", function (socket) {
 						return exists = true;
 				});
 			} while (!exists);
-			socket.emit("exists", {msg: "The username already exists, please pick another one.", proposedName: proposedName});
+			socket.emit("exists", {msg: "El usuario ya existe, escoge otro por favor.", proposedName: proposedName});
 		} else {
 			people[socket.id] = {"name" : name, "owns" : ownerRoomID, "inroom": inRoomID, "device": device};
-			socket.emit("update", "You have connected to the server.");
-			io.sockets.emit("update", people[socket.id].name + " is online.")
+			socket.emit("update", "Te has desconectado.");
+			io.sockets.emit("update", people[socket.id].name + " esta en linea.")
 			sizePeople = _.size(people);
 			sizeRooms = _.size(rooms);
 			io.sockets.emit("update-people", {people: people, count: sizePeople});
@@ -246,7 +246,7 @@ io.sockets.on("connection", function (socket) {
 						var whisperId = keys[i];
 						found = true;
 						if (socket.id === whisperId) { //can't whisper to ourselves
-							socket.emit("update", "You can't whisper to yourself.");
+							socket.emit("update", "No puedes mandar automensajes .");
 						}
 						break;
 					} 
@@ -270,7 +270,7 @@ io.sockets.on("connection", function (socket) {
 					chatHistory[socket.room].push(people[socket.id].name + ": " + msg);
 				}
 		    	} else {
-				socket.emit("update", "Please connect to a room.");
+				socket.emit("update", "Por favor, escribe una pregunta. Boton Accion > Quiero platicar con un agente.");
 		    	}
 		}
 	});
@@ -340,8 +340,8 @@ io.sockets.on("connection", function (socket) {
 						socket.room = room.name;
 						socket.join(socket.room);
 						user = people[socket.id];
-						io.sockets.in(socket.room).emit("update", user.name + " has connected to " + room.name + " room.");
-						socket.emit("update", "Welcome to " + room.name + ".");
+						io.sockets.in(socket.room).emit("update", user.name + " se ha conectado a " + room.name + " room.");
+						socket.emit("update", "Bienvenido a " + room.name + ".");
 						socket.emit("sendRoomID", {id: id});
 						var keys = _.keys(chatHistory);
 						if (_.contains(keys, socket.room)) {
@@ -351,7 +351,7 @@ io.sockets.on("connection", function (socket) {
 				}
 			}
 		} else {
-			socket.emit("update", "Please enter a valid name first.");
+			socket.emit("update", "Por favor, introduce un nombre valido.");
 		}
 	});
 

@@ -47,7 +47,7 @@ if (!('webkitSpeechRecognition' in window)) {
     final_transcript = '';
     recognition.lang = "en-GB"
     recognition.start();
-    $("#start_button").prop("value", "Recording ... Click to stop.");
+    $("#start_button").prop("value", "Grabando ... Click para parar.");
     $("#msg").val();
   }
 //end of WebSpeech
@@ -82,6 +82,8 @@ function timeFormat(msTime) {
 $(document).ready(function() {
   //setup "global" variables first
   var socket = io.connect("127.0.0.1:3000");
+  //var socket = io.connect("192.168.15.32:3000");
+  //var socket = io.connect("prendanetchat.herokuapp.com");
   var myRoomID = null;
 
   $("form").submit(function(event) {
@@ -210,7 +212,7 @@ $(document).ready(function() {
        if (roomExists) {
           $("#errors").empty();
           $("#errors").show();
-          $("#errors").append("Room <i>" + roomName + "</i> already exists");
+          $("#errors").append("Room <i>" + roomName + "</i> ya existe");
         } else {      
         if (roomName.length > 0) { //also check for roomname
           socket.emit("createRoom", roomName);
@@ -298,7 +300,7 @@ $(document).ready(function() {
 socket.on("exists", function(data) {
   $("#errors").empty();
   $("#errors").show();
-  $("#errors").append(data.msg + " Try <strong>" + data.proposedName + "</strong>");
+  $("#errors").append(data.msg + " Tratar <strong>" + data.proposedName + "</strong>");
     toggleNameForm();
     toggleChatWindow();
 });
@@ -332,12 +334,12 @@ socket.on("joined", function() {
 
 socket.on("history", function(data) {
   if (data.length !== 0) {
-    $("#msgs").append("<li><strong><span class='text-warning'>Last 10 messages:</li>");
+    $("#msgs").append("<li><strong><span class='text-warning'>Ultimos 10 mensajes:</li>");
     $.each(data, function(data, msg) {
       $("#msgs").append("<li><span class='text-warning'>" + msg + "</span></li>");
     });
   } else {
-    $("#msgs").append("<li><strong><span class='text-warning'>No past messages in this room.</li>");
+    $("#msgs").append("<li><strong><span class='text-warning'>No hay mensajes en este grupo.</li>");
   }
 });
 
@@ -348,7 +350,7 @@ socket.on("history", function(data) {
   socket.on("update-people", function(data){
     //var peopleOnline = [];
     $("#people").empty();
-    $('#people').append("<li class=\"list-group-item active\">People online <span class=\"badge\">"+data.count+"</span></li>");
+    $('#people').append("<li class=\"list-group-item active\">Personas en linea <span class=\"badge\">"+data.count+"</span></li>");
     $.each(data.people, function(a, obj) {
       if (!("country" in obj)) {
         html = "";
@@ -389,14 +391,14 @@ socket.on("history", function(data) {
 
   socket.on("roomList", function(data) {
     $("#rooms").text("");
-    $("#rooms").append("<li class=\"list-group-item active\">List of rooms <span class=\"badge\">"+data.count+"</span></li>");
+    $("#rooms").append("<li class=\"list-group-item active\">Lista de rooms <span class=\"badge\">"+data.count+"</span></li>");
      if (!jQuery.isEmptyObject(data.rooms)) { 
       $.each(data.rooms, function(id, room) {
         var html = "<button id="+id+" class='joinRoomBtn btn btn-default btn-xs' >Join</button>" + " " + "<button id="+id+" class='removeRoomBtn btn btn-default btn-xs'>Remove</button>";
         $('#rooms').append("<li id="+id+" class=\"list-group-item\"><span>" + room.name + "</span> " + html + "</li>");
       });
     } else {
-      $("#rooms").append("<li class=\"list-group-item\">There are no rooms yet.</li>");
+      $("#rooms").append("<li class=\"list-group-item\">Aun no hay rooms.</li>");
     }
   });
 
@@ -405,7 +407,7 @@ socket.on("history", function(data) {
   });
 
   socket.on("disconnect", function(){
-    $("#msgs").append("<li><strong><span class='text-warning'>The server is not available</span></strong></li>");
+    $("#msgs").append("<li><strong><span class='text-warning'>El servidor no se encuentra disponible </span></strong></li>");
     $("#msg").attr("disabled", "disabled");
     $("#send").attr("disabled", "disabled");
   });
