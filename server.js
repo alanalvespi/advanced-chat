@@ -40,8 +40,6 @@ app.listen(app.get('port'), function() {
   console.log("Node app is running on port:" + app.get('port'))
 })
 
-Console.log(">>>>" + app.get('port'))
-
 io.set("log level", 1);
 var people = {};
 var rooms = {};
