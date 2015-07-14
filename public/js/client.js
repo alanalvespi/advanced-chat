@@ -7,7 +7,6 @@
 var final_transcript = '';
 var recognizing = false;
 var last10messages = []; //to be populated later
-var app = express()
 
 if (!('webkitSpeechRecognition' in window)) {
   console.log("webkitSpeechRecognition is not available");
