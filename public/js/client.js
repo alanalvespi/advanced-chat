@@ -83,7 +83,7 @@ $(document).ready(function() {
   //setup "global" variables first
   //var socket = io.connect("127.0.0.1:3000");
   //var socket = io.connect("192.168.15.32:3000");
-  var socket = io.connect("http://prendanetchat.herokuapp.com:80");
+  var socket = io.connect("//prendanetchat.herokuapp.com:80");
   var myRoomID = null;
 
   $("form").submit(function(event) {
