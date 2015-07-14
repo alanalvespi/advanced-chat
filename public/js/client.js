@@ -7,6 +7,7 @@
 var final_transcript = '';
 var recognizing = false;
 var last10messages = []; //to be populated later
+var app = express()
 
 if (!('webkitSpeechRecognition' in window)) {
   console.log("webkitSpeechRecognition is not available");
@@ -83,7 +84,7 @@ $(document).ready(function() {
   //setup "global" variables first
   //var socket = io.connect("127.0.0.1:3000");
   //var socket = io.connect("192.168.15.32:3000");
-  var socket = io.connect("prendanetchat.herokuapp.com");
+  var socket = io.connect("http://prendanetchat.herokuapp.com");
   var myRoomID = null;
 
   $("form").submit(function(event) {
